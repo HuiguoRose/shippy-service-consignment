@@ -9,7 +9,7 @@ import (
 
 type handler struct {
 	repository
-	vesselClient vesselProto.VesselServiceClient
+	vesselClient vesselProto.VesselService
 }
 
 // CreateConsignment - we created just one method on our service,
@@ -21,7 +21,7 @@ func (s *handler) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 	// and the amount of containers as the capacity value
 	vesselResponse, err := s.vesselClient.FindAvailable(ctx, &vesselProto.Specification{
 		MaxWeight: req.Weight,
-		Capacity: int32(len(req.Containers)),
+		Capacity:  int32(len(req.Containers)),
 	})
 	if vesselResponse == nil {
 		return errors.New("error fetching vessel, returned nil")
